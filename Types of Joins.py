@@ -169,4 +169,23 @@ display(order_items_df)
 
 # COMMAND ----------
 
+customers_df.printSchema()
+
+# COMMAND ----------
+
+orders_df.printSchema()
+
+# COMMAND ----------
+
+order_items_df.printSchema()
+
+# COMMAND ----------
+
+df_oj = (orders_df.join(customers_df, customers_df["customer_id"] == orders_df["order_customer_id"], how="inner")
+         .join(order_items_df, order_items_df["order_item_order_id"] == orders_df["order_id"])
+         )
+display(df_oj)
+
+# COMMAND ----------
+
 

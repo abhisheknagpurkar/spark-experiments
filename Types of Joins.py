@@ -181,10 +181,26 @@ order_items_df.printSchema()
 
 # COMMAND ----------
 
+spark.conf.set("spark.sql.autoBroadcastJoinThreshold", "-1")
+
+# COMMAND ----------
+
+spark.conf.get("spark.sql.autoBroadcastJoinThreshold")
+
+# COMMAND ----------
+
 df_oj = (orders_df.join(customers_df, customers_df["customer_id"] == orders_df["order_customer_id"], how="inner")
          .join(order_items_df, order_items_df["order_item_order_id"] == orders_df["order_id"])
          )
 display(df_oj)
+
+# COMMAND ----------
+
+df_oj.rdd.getNumPartitions()
+
+# COMMAND ----------
+
+orders_df.rdd.getNumPartitions()
 
 # COMMAND ----------
 
